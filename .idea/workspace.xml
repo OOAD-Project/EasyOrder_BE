@@ -29,8 +29,8 @@
       <file leaf-file-name="routes.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/aiohttp_polls/routes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="24" column="92" selection-start-line="24" selection-start-column="68" selection-end-line="24" selection-end-column="92" />
+            <state relative-caret-position="345">
+              <caret line="23" column="94" selection-start-line="23" selection-start-column="94" selection-end-line="23" selection-end-column="94" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -88,8 +88,8 @@
       <file leaf-file-name="keeper_view.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/keeper_view.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="710">
-              <caret line="134" column="14" selection-start-line="134" selection-start-column="14" selection-end-line="134" selection-end-column="14" />
+            <state relative-caret-position="420">
+              <caret line="162" column="41" selection-start-line="162" selection-start-column="41" selection-end-line="162" selection-end-column="41" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -150,8 +150,8 @@
         <option value="$PROJECT_DIR$/config/polls.yaml" />
         <option value="$PROJECT_DIR$/aiohttp_polls/main.py" />
         <option value="$PROJECT_DIR$/models/reservation.py" />
-        <option value="$PROJECT_DIR$/aiohttp_polls/routes.py" />
         <option value="$PROJECT_DIR$/views/keeper_view.py" />
+        <option value="$PROJECT_DIR$/aiohttp_polls/routes.py" />
       </list>
     </option>
   </component>
@@ -351,16 +351,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/keeper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="32" lean-forward="true" selection-start-line="18" selection-start-column="32" selection-end-line="18" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/food_view.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -419,12 +409,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/aiohttp_polls/routes.py">
+    <entry file="file://$PROJECT_DIR$/models/keeper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="92" selection-start-line="24" selection-start-column="68" selection-end-line="24" selection-end-column="92" />
+        <state relative-caret-position="270">
+          <caret line="18" column="32" lean-forward="true" selection-start-line="18" selection-start-column="32" selection-end-line="18" selection-end-column="32" />
           <folding>
-            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -439,10 +429,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/aiohttp_polls/routes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="94" selection-start-line="23" selection-start-column="94" selection-end-line="23" selection-end-column="94" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/views/keeper_view.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="710">
-          <caret line="134" column="14" selection-start-line="134" selection-start-column="14" selection-end-line="134" selection-end-column="14" />
+        <state relative-caret-position="420">
+          <caret line="162" column="41" selection-start-line="162" selection-start-column="41" selection-end-line="162" selection-end-column="41" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>

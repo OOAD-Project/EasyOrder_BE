@@ -120,7 +120,7 @@ async def reservation_count_by_day(request):
     now_time = datetime.datetime.now()
 
     #统计最近30天的数据
-    for i in range(0, 30):
+    for i in range(1, 31):
         tmp_time = now_time - datetime.timedelta(days = i)
         y = str(tmp_time.year)
         m = "0" + str(tmp_time.month) if tmp_time.month < 10  else str(tmp_time.month)
@@ -131,6 +131,41 @@ async def reservation_count_by_day(request):
         result_l.append({
             "x": y + "-" + m + "-" + d,
             "y": num
+        })
+        #顺序问题？
+        #print(result_l)
+        result_l.reverse()
+    return web.json_response(result_l)
+
+
+
+
+async def reservation_count_by_week(request):
+    session = await get_session(request)
+    r = await verify_login(engine, session)
+    print("r", r)
+    if not r:
+        return web.json_response({
+            "info": "you have not login!"
+        })
+    result_l = []
+    now_time = datetime.datetime.now()
+    #统计最近10周的数据
+    for i in range(1, 11):
+        start_time = now_time - datetime.timedelta(days = 7 * i)
+        end_time = start_time + datetime.timedelta(days = 7)
+        sum = 0
+        for j in range(7):
+            tmp_time = start_time + datetime.timedelta(days = j + 1)
+            y = str(tmp_time.year)
+            m = "0" + str(tmp_time.month) if tmp_time.month < 10  else str(tmp_time.month)
+            d = "0" + str(tmp_time.day) if tmp_time.day < 10  else str(tmp_time.day)
+            num = await sales.sales_reservation.select_count_by_day(engine, y, m, d)
+            sum = sum + len(num)
+
+        result_l.append({
+            "x": str(start_time.date()) + "~" + str(end_time.date()),
+            "y": sum
         })
         #顺序问题？
         #print(result_l)

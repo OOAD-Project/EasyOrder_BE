@@ -21,7 +21,7 @@ def setup_routes(app):
     app.router.add_post("/api/login", keeper_view.login)
     app.router.add_get("/api/need_cookies_page", keeper_view.need_cookies_page)
     app.router.add_get("/api/reservation_count_by_month", keeper_view.reservation_count_by_month)
-    #app.router.add_get("/api/reservation_count_by_year", keeper_view.reservation_count_by_year)
+    app.router.add_get("/api/reservation_count_by_week", keeper_view.reservation_count_by_week)
     app.router.add_get("/api/reservation_count_by_day", keeper_view.reservation_count_by_day)
 
 
