@@ -34,6 +34,9 @@ def setup_routes(app):
     app.router.add_get("/api/reservation_quantity_pie_data", keeper_view.reservation_quantity_piedata)
     app.router.add_get("/api/total_static_info", keeper_view.total_static_info)
     app.router.add_get("/api/transaction_count_by_month", keeper_view.transaction_count_by_month)
+    app.router.add_get("/api/transaction_count_by_week", keeper_view.transaction_count_by_week)
+    app.router.add_get("/api/transaction_count_by_day", keeper_view.transaction_count_by_day)
+
     app.router.add_get("/api/turnover_piedata", keeper_view.turnover_piedata)
 
     # 解决前后端分离导致的跨域访问问题，这里设置为允许任意的IP进行跨域访问
