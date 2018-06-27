@@ -1,7 +1,7 @@
 from aiohttp import web
 from aiohttp_polls import routes
 from aiohttp_polls import session_encrypt
-from aiohttp_polls import session_redis
+# from aiohttp_polls import session_redis
 
 app = web.Application()
 app = routes.setup_routes(app)

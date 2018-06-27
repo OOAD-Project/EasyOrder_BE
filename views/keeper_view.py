@@ -22,7 +22,8 @@ import aio_engine
 # }
 
 async def login(request):
-    engine = await aio_engine.init_engine()
+    #engine = await aio_engine.init_engine()
+    engine = aio_engine.read_engine
     data = await request.json()
     print("data", data)
     if "name" not in data or "psw" not in data:
@@ -47,7 +48,8 @@ async def login(request):
 
 
 async def need_cookies_page(request):
-    engine = await aio_engine.init_engine()
+    #engine = await aio_engine.init_engine()
+    engine = aio_engine.read_engine
     session = await get_session(request)
     if "ooad" not in session or "login" not in session or "time" not in session:
         return web.json_response({
@@ -78,7 +80,8 @@ async def verify_login(engine, session):
     return False
 
 async def reservation_count_by_month(request):
-    engine = await aio_engine.init_engine()
+    #engine = await aio_engine.init_engine()
+    engine = aio_engine.read_engine
     session = await get_session(request)
     r = await verify_login(engine, session)
     print("r", r)
@@ -104,7 +107,8 @@ async def reservation_count_by_month(request):
 
 
 async def reservation_quantity_piedata(request):
-    engine = await aio_engine.init_engine()
+    engine = aio_engine.read_engine
+    #engine = await aio_engine.init_engine()
     session = await get_session(request)
     r = await verify_login(engine, session)
     if not r:
@@ -118,7 +122,8 @@ async def reservation_quantity_piedata(request):
 
 
 async def total_static_info(request):
-    engine = await aio_engine.init_engine()
+    #engine = await aio_engine.init_engine()
+    engine = aio_engine.read_engine
     session = await get_session(request)
     r = await verify_login(engine, session)
     if not r:
@@ -130,7 +135,8 @@ async def total_static_info(request):
 
 
 async def transaction_count_by_month(request):
-    engine = await aio_engine.init_engine()
+    #engine = await aio_engine.init_engine()
+    engine = aio_engine.read_engine
     session = await get_session(request)
     r = await verify_login(engine, session)
     if not r:
@@ -157,7 +163,8 @@ async def transaction_count_by_month(request):
 
 
 async def turnover_piedata(request):
-    engine = await aio_engine.init_engine()
+    #engine = await aio_engine.init_engine()
+    engine = aio_engine.read_engine
     session = await get_session(request)
     r = await verify_login(engine, session)
     if not r:
