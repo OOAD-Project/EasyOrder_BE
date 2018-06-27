@@ -119,18 +119,22 @@ async def reservation_count_by_day(request):
     result_l = []
     now_time = datetime.datetime.now()
 
-    for i in range(1, 13):
-        year = n.year
-        if i <= 9:
-            year_mon = str(year) + "-0" + str(i)
-        else:
-            year_mon = str(year) + "-" + str(i)
-        num = await sales.sales_reservation.select_count_by_month(engine, year, str(i))
+    #统计最近30天的数据
+    for i in range(0, 30):
+        tmp_time = now_time - datetime.timedelta(days = i)
+        y = str(tmp_time.year)
+        m = "0" + str(tmp_time.month) if tmp_time.month < 10  else str(tmp_time.month)
+        d = "0" + str(tmp_time.day) if tmp_time.day < 10  else str(tmp_time.day)   
+        num = await sales.sales_reservation.select_count_by_day(engine, y, m, d)
         num = len(num)
+
         result_l.append({
-            "x": year_mon,
+            "x": y + "-" + m + "-" + d,
             "y": num
         })
+        #顺序问题？
+        #print(result_l)
+        result_l.reverse()
     return web.json_response(result_l)
 
 

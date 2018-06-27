@@ -22,7 +22,7 @@ def setup_routes(app):
     app.router.add_get("/api/need_cookies_page", keeper_view.need_cookies_page)
     app.router.add_get("/api/reservation_count_by_month", keeper_view.reservation_count_by_month)
     #app.router.add_get("/api/reservation_count_by_year", keeper_view.reservation_count_by_year)
-    #app.router.add_get("/api/reservation_count_by_day", keeper_view.reservation_count_by_day)
+    app.router.add_get("/api/reservation_count_by_day", keeper_view.reservation_count_by_day)
 
 
     app.router.add_get("/api/reservation_quantity_pie_data", keeper_view.reservation_quantity_piedata)
