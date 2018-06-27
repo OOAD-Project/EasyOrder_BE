@@ -21,9 +21,11 @@ import aio_engine
 #     "psw": "Gzm20125"
 # }
 
+engine = aio_engine.read_engine
+
+
+
 async def login(request):
-    #engine = await aio_engine.init_engine()
-    engine = aio_engine.read_engine
     data = await request.json()
     print("data", data)
     if "name" not in data or "psw" not in data:
@@ -48,8 +50,6 @@ async def login(request):
 
 
 async def need_cookies_page(request):
-    #engine = await aio_engine.init_engine()
-    engine = aio_engine.read_engine
     session = await get_session(request)
     if "ooad" not in session or "login" not in session or "time" not in session:
         return web.json_response({
@@ -57,8 +57,8 @@ async def need_cookies_page(request):
         })
     name = session["ooad"]
     psw = session["login"]
-    r = await keeper.verify(engine, name = name, psw = psw)
-    if r:
+    verifyLogin = await keeper.verify(engine, name = name, psw = psw)
+    if verifyLogin:
         return web.json_response({
             "status": True
         })
@@ -69,7 +69,6 @@ async def need_cookies_page(request):
 
 async def verify_login(engine, session):
     if "ooad" not in session or "login" not in session or "time" not in session:
-        # print("not login")
         return False
     name = session["ooad"]
     psw = session["login"]
@@ -80,8 +79,6 @@ async def verify_login(engine, session):
     return False
 
 async def reservation_count_by_month(request):
-    #engine = await aio_engine.init_engine()
-    engine = aio_engine.read_engine
     session = await get_session(request)
     r = await verify_login(engine, session)
     print("r", r)
@@ -90,7 +87,38 @@ async def reservation_count_by_month(request):
             "info": "you have not login!"
         })
     result_l = []
-    n = datetime.datetime.now()
+    now_time = datetime.datetime.now()
+    for i in range(1, 13):
+        if (i + now_time.month < 13):
+            year = now_time.year - 1
+        else :
+            year = now_time.year
+        month = (now_time.month + i - 1) % 12 + 1
+
+        if month <= 9:
+            year_mon = str(year) + "-0" + str(month)
+        else:
+            year_mon = str(year) + "-" + str(month)
+        num = await sales.sales_reservation.select_count_by_month(engine, year, str(month))
+        num = len(num)
+        result_l.append({
+            "x": year_mon,
+            "y": num
+        })
+    return web.json_response(result_l)
+
+
+async def reservation_count_by_day(request):
+    session = await get_session(request)
+    r = await verify_login(engine, session)
+    print("r", r)
+    if not r:
+        return web.json_response({
+            "info": "you have not login!"
+        })
+    result_l = []
+    now_time = datetime.datetime.now()
+
     for i in range(1, 13):
         year = n.year
         if i <= 9:
@@ -106,9 +134,11 @@ async def reservation_count_by_month(request):
     return web.json_response(result_l)
 
 
+
+
+
+
 async def reservation_quantity_piedata(request):
-    engine = aio_engine.read_engine
-    #engine = await aio_engine.init_engine()
     session = await get_session(request)
     r = await verify_login(engine, session)
     if not r:
@@ -122,8 +152,6 @@ async def reservation_quantity_piedata(request):
 
 
 async def total_static_info(request):
-    #engine = await aio_engine.init_engine()
-    engine = aio_engine.read_engine
     session = await get_session(request)
     r = await verify_login(engine, session)
     if not r:
@@ -135,8 +163,6 @@ async def total_static_info(request):
 
 
 async def transaction_count_by_month(request):
-    #engine = await aio_engine.init_engine()
-    engine = aio_engine.read_engine
     session = await get_session(request)
     r = await verify_login(engine, session)
     if not r:
@@ -163,8 +189,6 @@ async def transaction_count_by_month(request):
 
 
 async def turnover_piedata(request):
-    #engine = await aio_engine.init_engine()
-    engine = aio_engine.read_engine
     session = await get_session(request)
     r = await verify_login(engine, session)
     if not r:

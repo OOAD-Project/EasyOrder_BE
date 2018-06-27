@@ -67,6 +67,14 @@ async def select_count_by_month(engine, year, mon):
         await trans.commit()
         return records
 
+async def select_count_by_day(engine, year, mon, day):
+    async with engine.acquire() as conn:
+        trans = await conn.begin()
+        cursor = await conn.execute(reservation.select().where(sa.extract('year', reservation.c.reserve_datetime) == year).where(sa.extract("month", reservation.c.reserve_datetime) == mon)
+                                    .where(sa.extract("day", reservation.c.reserve_datetime) == day))
+        records = await cursor.fetchall()
+        await trans.commit()
+        return records
 
 
 
