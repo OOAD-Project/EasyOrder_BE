@@ -1,20 +1,25 @@
+# 订单 CRUD 操作
+
 import sqlalchemy as sa
 from models.meta import meta
 import datetime
 
+# reservation 订单的结构，通过 meta 注册器映射为数据库 reservation 表
 reservation = sa.Table(
-    "reservation",
-    meta,
-    sa.Column("isPaid", sa.Boolean, default = False),
-    sa.Column("id", sa.Integer, primary_key = True),
-    sa.Column("reserve_datetime", sa.DateTime),
-    sa.Column("pay_datetime", sa.DateTime),
-    sa.Column("table_num", sa.Integer, nullable = False),
-    sa.Column("food_list", sa.JSON),
-    sa.Column("total", sa.Float)
+    "reservation",                                        # 表名
+    meta,                                                 # 注册器
+    sa.Column("isPaid", sa.Boolean, default = False),     # 订单是否已结账
+    sa.Column("id", sa.Integer, primary_key = True),      # 订单编号
+    sa.Column("reserve_datetime", sa.DateTime),           # 订单日期
+    sa.Column("pay_datetime", sa.DateTime),               # 结账日期
+    sa.Column("table_num", sa.Integer, nullable = False), # 订单对应的饭桌号
+    sa.Column("food_list", sa.JSON),                      # 订单包含的菜品列表
+    sa.Column("total", sa.Float)                          # 订单总价
 )
 
-
+# 插入新的订单记录
+# 输入参数：engine 连接数据库的引擎，reservation_object 要新增的订单
+# 返回值：若插入成功则返回最新插入的订单的id
 async def insert(engine, reservation_object):
     async with engine.acquire() as conn:
         trans = await conn.begin()
@@ -27,8 +32,9 @@ async def insert(engine, reservation_object):
         await trans.commit()
         return dict(record)
 
-
-
+# 删除已有的订单记录
+# 输入参数：engine 连接数据库的引擎，id 要删除订单的编号
+# 返回值：若删除成功则返回true，删除失败则返回 false
 async def delete(engine, id):
     try:
         async with engine.acquire() as conn:
@@ -40,7 +46,9 @@ async def delete(engine, id):
     else:
         return True
 
-
+# 获取已有的订单记录
+# 输入参数：engine 连接数据库的引擎，id 要获取的订单编号，reserve_datetime 订单创建日期，pay_datetime 订单结账日期，table_num 订单对应桌号
+# 返回值：与各个参数对应的所有订单列表；如果不指定参数则返回 reservation 表的所有菜品列表
 async def select(engine, id = None, reserve_datetime = None, pay_datetime = None, table_num = None):
     async with engine.acquire() as conn:
         trans = await conn.begin()
@@ -58,7 +66,9 @@ async def select(engine, id = None, reserve_datetime = None, pay_datetime = None
         await trans.commit()
         return [dict(r) for r in records]
 
-
+# 获取指定年月的所有订单
+# 输入参数：engine 连接数据库的引擎，year 年，mon 月
+# 返回值：对应年月的所有订单记录
 async def select_count_by_month(engine, year, mon):
     async with engine.acquire() as conn:
         trans = await conn.begin()
@@ -67,6 +77,9 @@ async def select_count_by_month(engine, year, mon):
         await trans.commit()
         return records
 
+# 获取指定年月日的所有订单
+# 输入参数：engine 连接数据库的引擎，year 年，mon 月 day 日
+# 返回值：对应年月日的所有订单记录
 async def select_count_by_day(engine, year, mon, day):
     async with engine.acquire() as conn:
         trans = await conn.begin()
@@ -76,8 +89,10 @@ async def select_count_by_day(engine, year, mon, day):
         await trans.commit()
         return records
 
-
-
+# 获取所有订单汇总信息
+# 输入参数：engine 连接数据库的引擎
+# 返回值：total_turnover 总销售额，total_reservation 总订单量，
+#        total_payment 已结账订单的总额，reservation_payment_ratio 已结账订单占总订单份额
 async def total_static_info(engine):
     async with engine.acquire() as conn:
         trans = await conn.begin()
