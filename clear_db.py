@@ -1,3 +1,5 @@
+# 清空并重置数据库
+
 from models.meta import meta
 from models.tag import tag
 from models.food import food

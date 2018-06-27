@@ -1,3 +1,5 @@
+# 订单视图
+
 from aiohttp import web
 import pathlib
 # import yaml
@@ -5,6 +7,7 @@ import sys
 from aiojobs.aiohttp import atomic
 # import ast
 
+# 加载模型和路由模块
 BASE_DIR = pathlib.Path(__file__).parent.parent
 models_path = BASE_DIR / "models"
 aiohttp_polls_path = BASE_DIR / "aiohttp_polls"
@@ -16,6 +19,9 @@ import aio_engine
 
 
 """
+获取订单信息
+输入参数：request 用户请求
+返回值：
 返回格式
 {
     "id": "1080",
@@ -90,7 +96,9 @@ interface IOrderItem {
         "food_list": {"pork": 13, "fish": 2},
         "total": 34
 """
-
+# 生成新的订单
+# 输入参数：request 用户请求
+# 返回值：新订单生成状态
 @atomic
 async def create_order(request):
     engine = await aio_engine.init_engine()

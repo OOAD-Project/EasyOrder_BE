@@ -1,3 +1,5 @@
+# 菜品销售信息
+
 from models import reservation
 from models import food
 import datetime
@@ -7,6 +9,9 @@ import ast
 sales_food = food
 sales_reservation = reservation
 
+# 获取指定编号的菜品的月销售额
+# 输入参数：engine 连接数据库的引擎，id 指定的菜品编号
+# 返回值：指定菜品的月销售额
 async def sales_permonth(engine, id = None):
     if not id:
         return None
@@ -37,7 +42,9 @@ async def sales_permonth(engine, id = None):
                 count += food_list[food_name_result]
         return count
 
-
+# 获取每个菜品总下单量信息，用于绘制饼图
+# 输入参数：engine 连接数据库的引擎
+# 返回值：{ 菜品：历史总下单量 } 的键值对列表
 async def reservation_quantity_piedata(engine):
     async with engine.acquire() as conn:
         trans = await conn.begin()
@@ -62,7 +69,9 @@ async def reservation_quantity_piedata(engine):
             r.append(t)
         return r
 
-
+# 获取每个菜品总销售额信息，用于绘制饼图
+# 输入参数：engine 连接数据库的引擎
+# 返回值：{ 菜品：历史总销售额 } 的键值对列表
 async def turnover_piedata(engine):
     async with engine.acquire() as conn:
         trans = await conn.begin()
