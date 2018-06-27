@@ -12,6 +12,7 @@ sys.path.append(str(views_path))
 import food_view
 import reservation_view
 import keeper_view
+import comment_view
 
 # 添加路由到 web Application 对象中
 # 输入参数：app web Application 对象
@@ -21,6 +22,7 @@ def setup_routes(app):
     app.router.add_get("/api/product/{id}", food_view.get_food)
     app.router.add_get("/api/products", food_view.get_all_food)
     app.router.add_get("/api/order/{id}", reservation_view.get_order)
+    app.router.add_get("/api/comments", comment_view.get_comments)
     app.router.add_post("/api/order", reservation_view.create_order)
 
     # 添加面向管理人路由
@@ -57,5 +59,3 @@ def setup_routes(app):
     # setup(app, storage)
 
     # setup(app, EncryptedCookieStorage(b'Thirty  two  length  bytes  key.'))
-
-

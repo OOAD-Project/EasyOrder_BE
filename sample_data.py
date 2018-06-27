@@ -38,6 +38,22 @@ async def insert_sample_data():
         "name": "root",
         "psw": "Gzm20125"
     }
+    comment_object1 = {
+        "content": "oh, so delicious!",
+        "food_id": 1
+    }
+    comment_object2 = {
+        "content": "oh, so tasty!",
+        "food_id": 1
+    }
+    comment_object3 = {
+        "content": "oh, so lovely!",
+        "food_id": 2
+    }
+    comment_object4 = {
+        "content": "oh, so cute!",
+        "food_id": 2
+    }
     r = await tag.insert(engine, tag_object)
     print("tag r", r)
     r = await food.insert(engine, food_object)
@@ -48,6 +64,14 @@ async def insert_sample_data():
     print("reservation r", r)
     r = await keeper.insert(engine, keeper_object)
     print("keeper r", r)
+    r = await comment.insert(engine, comment_object1)
+    print("comment r", r)
+    r = await comment.insert(engine, comment_object2)
+    print("comment r", r)
+    r = await comment.insert(engine, comment_object3)
+    print("comment r", r)
+    r = await comment.insert(engine, comment_object4)
+    print("comment r", r)
 
 
 if __name__ == "__main__":
