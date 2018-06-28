@@ -303,6 +303,19 @@ async def transaction_count_by_week(request):
 
 
 
+async def basic_static(requeset):
+    session = await get_session(request)
+    r = await verify_login(engine, session)
+    if not r:
+        return web.json_response({
+            "info": "you have not login!"
+        })
+
+
+
+
+
+
 
 
 

@@ -35,15 +35,17 @@ async def get_comments(request):
 async def create_comment(request):
     engine = await aio_engine.init_engine()
     data = await request.json()
-    food_id = data["food_id"]
-    rating = data["rating"]
-    content = data["content"]
+    print(data["comment"][0]["food_id"])
+    food_id = data["comment"][0]["food_id"]
+    rating = data["comment"][0]["rating"]
+    content = data["comment"][0]["content"]
     comment_object = {
         "food_id": food_id,
         "rating": rating,
         "content": content
     }
-    r = await comment.comment_food.insert(engine, comment_object)
-    print(r)
-    return web.json_response({"comment_id": r["LAST_INSERT_ID()"]})
+    # comment.insert(engine, comment_object)
+    r = await comment.insert(engine, comment_object)
+    print("r", r)
+    return web.json_response({"status": r})
     

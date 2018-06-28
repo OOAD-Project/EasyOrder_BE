@@ -8,28 +8,33 @@ from models.reservation import reservation
 from models.keeper import keeper
 from aiohttp_polls.setting import config
 import sqlalchemy as sa
+import mysql.connector
 
 config = config["mysql"]
-URI = "mysql+{connector}://{user}:{password}@{host}:{port}"
+URI = "mysql+{connector}://{user}:{password}@{host}:{port}/{database}"
 URI = URI.format(
     connector = config["init_connector"],
     user = config["user"],
     password = config["password"],
     host = config["host"],
-    port = config["port"]
+    port = config["port"],
+    database = config["database"]
 )
-engine = sa.create_engine(URI)
+
 
 
 #init_database函数用于flask运行之前同步初始化数据库，app的连接引擎是异步的，由aiomysql.ra提供连接
 def init_database():
     try:
-        with engine.connect() as conn:
-            #print("conn", conn)
-            conn.execute("create database if not exists restaurant;")
-            conn.execute("use restaurant;")
-        if not engine.dialect.has_table(engine, table_name="tag") and not engine.dialect.has_table(engine, table_name="food") and not engine.dialect.has_table(engine, table_name="comment") and not engine.dialect.has_table(engine, table_name="reservation") and not engine.dialect.has_table(engine, table_name="keeper"):
-            meta.create_all(bind=engine, tables=[tag, food, comment, reservation, keeper])
+        raw_conn = mysql.connector.connect(user = config["user"], password = config["password"])
+        raw_cursor = raw_conn.cursor()
+        raw_cursor.execute("show databases;")
+        r = raw_cursor.fetchall()
+        if ("restaurant",) not in r:
+            raw_cursor.execute("create database restaurant DEFAULT CHARACTER SET gbk COLLATE gbk_chinese_ci;")
+            engine = sa.create_engine(URI)
+            if not engine.dialect.has_table(engine, table_name="tag") and not engine.dialect.has_table(engine, table_name="food") and not engine.dialect.has_table(engine, table_name="comment") and not engine.dialect.has_table(engine, table_name="reservation") and not engine.dialect.has_table(engine, table_name="keeper"):
+                meta.create_all(bind=engine, tables=[tag, food, comment, reservation, keeper])
     except:
         return False
     else:
@@ -38,3 +43,4 @@ def init_database():
 
 if __name__ == "__main__":
     print(init_database())
+    # init_database()
