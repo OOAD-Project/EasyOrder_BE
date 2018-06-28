@@ -39,20 +39,24 @@ async def insert_sample_data():
         "psw": "Gzm20125"
     }
     comment_object1 = {
-        "content": "oh, so delicious!",
-        "food_id": 1
+        "food_id": 1,
+        "rating": 4,
+        "content": "oh, so delicious!"
     }
     comment_object2 = {
-        "content": "oh, so tasty!",
-        "food_id": 1
+        "food_id": 1,
+        "rating": 5,
+        "content": "oh, so tasty!"
     }
     comment_object3 = {
-        "content": "oh, so lovely!",
-        "food_id": 2
+        "food_id": 2,
+        "rating": 3,
+        "content": "oh, so lovely!"
     }
     comment_object4 = {
-        "content": "oh, so cute!",
-        "food_id": 2
+        "food_id": 2,
+        "rating": 4,
+        "content": "oh, so cute!"
     }
     r = await tag.insert(engine, tag_object)
     print("tag r", r)

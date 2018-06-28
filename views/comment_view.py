@@ -4,6 +4,7 @@ from aiohttp import web
 import pathlib
 import yaml
 import sys
+from aiojobs.aiohttp import atomic
 
 # 加载模型和路由模块
 BASE_DIR = pathlib.Path(__file__).parent.parent
@@ -26,3 +27,23 @@ async def get_comments(request):
     for r in records:
         r["comment_time"] = str(r["comment_time"])
     return web.json_response({"comments": records})
+
+# 生成新的评论
+# 输入参数：request 用户post请求
+# 返回值：新评论生成状态
+@atomic
+async def create_comment(request):
+    engine = await aio_engine.init_engine()
+    data = await request.json()
+    food_id = data["food_id"]
+    rating = data["rating"]
+    content = data["content"]
+    comment_object = {
+        "food_id": food_id,
+        "rating": rating,
+        "content": content
+    }
+    r = await comment.comment_food.insert(engine, comment_object)
+    print(r)
+    return web.json_response({"comment_id": r["LAST_INSERT_ID()"]})
+    

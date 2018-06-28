@@ -12,8 +12,9 @@ comment = sa.Table(
     "comment",                                                  # 表名
     meta,                                                       # 注册器
     sa.Column("id", sa.Integer, primary_key = True),            # 评论编号
-    sa.Column("content", sa.String(50), nullable = False),      # 评论内容
     sa.Column("food_id", sa.Integer, sa.ForeignKey("food.id")), # 评论对应的菜品编号
+    sa.Column("rating", sa.Float),                              # 菜品评价
+    sa.Column("content", sa.String(50), nullable = False),      # 评论内容
     sa.Column("comment_time", sa.DateTime)                      # 评论的日期
 )
 
@@ -24,7 +25,7 @@ async def insert(engine, comment_object):
     try:
         async with engine.acquire() as conn:
             trans = await conn.begin()
-            await conn.execute(comment.insert().values(content = comment_object["content"], food_id = comment_object["food_id"], comment_time = datetime.datetime.now()))
+            await conn.execute(comment.insert().values(content = comment_object["content"], food_id = comment_object["food_id"], rating = comment_object["rating"], comment_time = datetime.datetime.now()))
             await trans.commit()
     except:
         return False
@@ -81,6 +82,5 @@ async def select(engine, id = None, food_id = None):
                     c_rst["id"] = str(c_rst["id"])
                     c_rst["food_id"] = str(c_rst["food_id"])
                     c_rst["food_name"] = f_rst["name"]
-                    c_rst["rating"] = f_rst["rating"]
         
         return comment_result

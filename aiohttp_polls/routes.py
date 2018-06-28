@@ -23,6 +23,7 @@ def setup_routes(app):
     app.router.add_get("/api/products", food_view.get_all_food)
     app.router.add_get("/api/order/{id}", reservation_view.get_order)
     app.router.add_get("/api/comments", comment_view.get_comments)
+    app.router.add_post("/api/comments", comment_view.create_comment)
     app.router.add_post("/api/order", reservation_view.create_order)
 
     # 添加面向管理人路由
