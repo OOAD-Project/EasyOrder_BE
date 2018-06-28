@@ -8,7 +8,7 @@ config = config["mysql"]
 # 异步连接数据库
 # 返回值：engine 连接上数据库的引擎
 async def init_engine():
-    engine = await aiomysql.sa.create_engine(user = config["user"], db = config["database"], host = config["host"], password = config["password"])
+    engine = await aiomysql.sa.create_engine(user = config["user"], db = config["database"], host = config["host"], password = config["password"], charset = "gbk")
     return engine
 #engine = await init_engine()
 

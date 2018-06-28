@@ -66,6 +66,29 @@ async def select(engine, id = None, reserve_datetime = None, pay_datetime = None
         await trans.commit()
         return [dict(r) for r in records]
 
+
+#获取所有订单
+async def select_all_reservation(engine):
+    r = await select(engine)
+    return r
+
+
+# 获取所有已支付订单
+# 输入参数 数据库连接 engine
+# 返回所有已支付订单
+async def select_paid_reservation(engine):
+    async with engine.acquire() as conn:
+        trans = await conn.begin()
+        select_obj = reservation.select().where(reservation.c.isPaid == True)
+        cursor = await conn.execute(select_obj)
+        records = await cursor.fetchall()
+        await trans.commit()
+        return [dict(r) for r in records]
+
+
+
+
+
 # 获取指定年月的所有订单
 # 输入参数：engine 连接数据库的引擎，year 年，mon 月
 # 返回值：对应年月的所有订单记录

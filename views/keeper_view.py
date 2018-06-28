@@ -303,14 +303,23 @@ async def transaction_count_by_week(request):
 
 
 
-async def basic_static(requeset):
+async def basic_static(request):
     session = await get_session(request)
     r = await verify_login(engine, session)
     if not r:
         return web.json_response({
             "info": "you have not login!"
         })
+    result = {}
+    paid_reservation = await sales.sales_reservation.select_paid_reservation(engine)
+    print(paid_reservation)
+    all_reservation = await sales.sales_reservation.select_all_reservation(engine)
+    result["total_turnover"] = sum([x["total"] for x in paid_reservation])
+    result["total_payment"] = len(list(paid_reservation))
+    result["total_reservation"] = len(list(all_reservation))
+    result["reservation_payment_ratio"] = result["total_payment"] / result["total_reservation"]
 
+    return web.json_response(result)
 
 
 
