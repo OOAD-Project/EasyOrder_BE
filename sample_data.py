@@ -10,18 +10,18 @@ async def insert_sample_data():
     engine = await init_engine()
     tag_object = {"description": "this is a new tag", "picture": "this is a tag picture"}
     food_object = {
-        "name": "pork",
+        "name": "牛杂汤粉面",
         "picture": "https://i8.meishichina.com/attachment/recipe/2014/07/18/20140718114832312460803.jpg?x-oss-process=style/p800",
-        "price": 53,
+        "price": 15,
         "description": "this is a pork",
         "rating": "0.8",
         "amount": "100",
         "tag_id": 1
     }
     food_object1 = {
-        "name": "fish",
+        "name": "素粉面",
         "picture": "https://www.jucanw.com/UploadFiles/2013-05/admin/2013051715282196795.jpg",
-        "price": 32,
+        "price": 12,
         "description": "this is a fish",
         "rating": "0.4",
         "amount": "10",
@@ -31,8 +31,9 @@ async def insert_sample_data():
     r_object = {
         "isPaid": True,
         "table_num": 12,
-        "food_list": {"pork": 13, "fish": 2},
-        "total": 34
+        "food_list": {"牛杂汤粉面": 3, "素粉面": 2},
+        "total": 69,
+        "isOutOfDate": False
     }
     keeper_object = {
         "name": "root",

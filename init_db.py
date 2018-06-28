@@ -30,6 +30,7 @@ def init_database():
         raw_cursor = raw_conn.cursor()
         raw_cursor.execute("show databases;")
         r = raw_cursor.fetchall()
+        print(r)
         if ("restaurant",) not in r:
             raw_cursor.execute("create database restaurant DEFAULT CHARACTER SET gbk COLLATE gbk_chinese_ci;")
             engine = sa.create_engine(URI)
@@ -42,5 +43,5 @@ def init_database():
 
 
 if __name__ == "__main__":
-    print(init_database())
-    # init_database()
+    # print(init_database())
+    init_database()

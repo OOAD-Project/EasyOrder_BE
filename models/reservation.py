@@ -14,7 +14,8 @@ reservation = sa.Table(
     sa.Column("pay_datetime", sa.DateTime),               # 结账日期
     sa.Column("table_num", sa.Integer, nullable = False), # 订单对应的饭桌号
     sa.Column("food_list", sa.JSON),                      # 订单包含的菜品列表
-    sa.Column("total", sa.Float)                          # 订单总价
+    sa.Column("total", sa.Float),                         # 订单总价
+    sa.Column("isOutOfDate",sa.Boolean, default = False)             # 订单是否过期
 )
 
 # 插入新的订单记录
@@ -24,9 +25,10 @@ async def insert(engine, reservation_object):
     async with engine.acquire() as conn:
         trans = await conn.begin()
         if "pay_datetime" not in reservation_object:
-        	await conn.execute(reservation.insert().values(isPaid = reservation_object["isPaid"], reserve_datetime = datetime.datetime.now(), table_num = reservation_object["table_num"], food_list = reservation_object["food_list"], total = reservation_object["total"]))
+        	await conn.execute(reservation.insert().values(isPaid = reservation_object["isPaid"], reserve_datetime = datetime.datetime.now(), table_num = reservation_object["table_num"], food_list = reservation_object["food_list"], total = reservation_object["total"], isOutOfDate = reservation_object["isOutOfDate"]))
         elif "pay_datetime" in reservation_object:
-        	await conn.execute(reservation.insert().values(isPaid = reservation_object["isPaid"], reserve_datetime = datetime.datetime.now(), pay_datetime = reservation_object["pay_datetime"], table_num = reservation_object["table_num"], food_list = reservation_object["food_list"], total = reservation_object["total"]))
+        	await conn.execute(reservation.insert().values(isPaid = reservation_object["isPaid"], reserve_datetime = datetime.datetime.now(), pay_datetime = reservation_object["pay_datetime"],
+                                                           table_num = reservation_object["table_num"], food_list = reservation_object["food_list"], total = reservation_object["total"], isOutOfDate = reservation_object["isOutOfDate"]))
         cursor = await conn.execute("SELECT LAST_INSERT_ID() FROM reservation;")
         record = await cursor.fetchone()
         await trans.commit()
