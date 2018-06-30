@@ -38,9 +38,10 @@ async def create_comment(request):
     data = await request.post()
     data = ast.literal_eval(list(data.keys())[0])
     print("data", data)
-    print("data comment", data["comment"], "type", type(data["comment"]))
+    #print("data comment", data["comment"], "type", type(data["comment"]))
     ndata = {}
-    ndata["comment"] = ast.literal_eval(data["comment"])
+    #ndata["comment"] = ast.literal_eval(data["comment"])
+    ndata["comment"] = data
     print(ndata["comment"]["food_id"])
     food_id = ndata["comment"]["food_id"]
     rating = ndata["comment"]["rating"]
