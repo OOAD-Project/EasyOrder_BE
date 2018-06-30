@@ -44,10 +44,6 @@ import aio_engine
 async def get_order(request):
     id = int(request.match_info['id'])
     res = await get_order_by_reservation_id(id)
-    res["create_time"] = res["reserve_datetime"]
-    res["table"] = res["table_num"]
-    res["pay_time"] = res["pay_datetime"]
-    res["list"] = res["food_list"]
 
     return web.json_response(res)
 
@@ -72,6 +68,11 @@ async def get_order_by_reservation_id(id):
     record["food_list"] = new_food_list
     record["reserve_datetime"] = str(record["reserve_datetime"])
     record["pay_datetime"] = str(record["pay_datetime"])
+    record["create_time"] = record["reserve_datetime"]
+    record["table"] = record["table_num"]
+    record["pay_time"] = record["pay_datetime"]
+    record["list"] = record["food_list"]
+    record['id'] = str(record['id'])
     return record
 
 #通过session来验证是否之前有过订单记录
