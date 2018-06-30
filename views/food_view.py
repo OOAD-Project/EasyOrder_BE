@@ -37,8 +37,11 @@ async def get_food(request):
 
 =======
     record["sales_permonth"] = sales_permonth
+<<<<<<< HEAD
     record["id"] = str(record["id"])
 >>>>>>> 9138b7fbe995cec2c7a867adcf5b8ca68cf1e7ff
+=======
+>>>>>>> 47732bb9f12743d1b45ed4a6c848d116ba92edc0
     return web.json_response(record)
 
 # 获取所有的菜品信息
@@ -61,6 +64,9 @@ async def get_all_food(request):
 
 =======
         r["sales_permonth"] = sales_permonth
+<<<<<<< HEAD
         r["id"] = str(r["id"])
 >>>>>>> 9138b7fbe995cec2c7a867adcf5b8ca68cf1e7ff
+=======
+>>>>>>> 47732bb9f12743d1b45ed4a6c848d116ba92edc0
     return web.json_response(records)
