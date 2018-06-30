@@ -8,7 +8,8 @@ import asyncio
 
 async def insert_sample_data():
     engine = await init_engine()
-    tag_object = {"description": "this is a new tag", "picture": "this is a tag picture"}
+    tag_object = {"description": "粉面", "picture": "this is a tag picture"}
+    tag_object1 = {"description": "饮品", "picture": "this is a tag picture"}
     food_object = {
         "name": "牛杂汤粉面",
         "imageUrl": "https://i8.meishichina.com/attachment/recipe/2014/07/18/20140718114832312460803.jpg?x-oss-process=style/p800",
@@ -59,7 +60,10 @@ async def insert_sample_data():
         "rating": 4,
         "content": "oh, so cute!"
     }
+
     r = await tag.insert(engine, tag_object)
+    print("tag r", r)
+    r = await tag.insert(engine, tag_object1)
     print("tag r", r)
     r = await food.insert(engine, food_object)
     print("food r", r)
