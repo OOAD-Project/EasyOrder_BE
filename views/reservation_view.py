@@ -44,6 +44,11 @@ import aio_engine
 async def get_order(request):
     id = int(request.match_info['id'])
     res = await get_order_by_reservation_id(id)
+    res["create_time"] = res["reserve_time"]
+    res["table"] = res["table_num"]
+    res["pay_time"] = res["pay_datetime"]
+    res["list"] = res["food_list"]
+    
     return web.json_response(res)
 
 async def get_order_by_reservation_id(id):
