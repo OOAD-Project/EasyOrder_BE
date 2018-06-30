@@ -132,7 +132,7 @@ async def create_order(request):
     engine = await aio_engine.init_engine()
     data = await request.post()
     #print("data", data)
-    data = ast.literal_eval(data.keys()[0])
+    data = ast.literal_eval(list(data.keys())[0])
     table_num = data["table"]
     food_list =  data["list"]
     #food_list =  ast.literal_eval(data["list"])
