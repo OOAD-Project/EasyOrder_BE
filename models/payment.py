@@ -1,7 +1,19 @@
 import sqlalchemy as sa
 from models.meta import meta
 
+import pathlib
+import sys
+BASE_DIR = pathlib.Path(__file__).parent.parent
+models_path = BASE_DIR / "models"
+aiohttp_polls_path = BASE_DIR / "aiohttp_polls"
+sys.path.append(str(models_path))
+sys.path.append(str(aiohttp_polls_path))
+
 import random
+import sales
+import datetime
+from models.reservation import reservation
+
 
 payment = sa.Table(
     "payment",
@@ -15,19 +27,33 @@ payment = sa.Table(
 
 async def insert(engine, payment_object):
     s=""
+    is_find = False;
     for i in range(64):
         s += str(random.randint(1,9))
 
     try:
         async with engine.acquire() as conn:
             trans = await conn.begin()
-            await conn.execute(payment.insert().values(id = s, payment_time = payment_object["payment_time"], payment_way = payment_object["payment_way"], payment_amount = payment_object["payment_amount"], reservation_id = payment_object["reservation_id"]))
+            #先判断reservation有没有payment
+            res = await sales.sales_reservation.select(engine, id=payment_object["reservation_id"])
+            if (res != []):
+                is_find = True
+                res = res[0]
+                res["isPaid"] = True
+                res["pay_datetime"] = datetime.datetime.now()
+                #更新reservation
+                await conn.execute(reservation.update().where(reservation.c.id == payment_object["reservation_id"]).values(isPaid = res["isPaid"], reserve_datetime = res["reserve_datetime"], table_num = res["table_num"], food_list = res["food_list"], total = res["total"], pay_datetime = res["pay_datetime"], isOutOfDate = res["isOutOfDate"]))
+                #插入payment
+                await conn.execute(payment.insert().values(id = s, payment_time = payment_object["payment_time"], payment_way = payment_object["payment_way"], payment_amount = payment_object["payment_amount"], reservation_id = payment_object["reservation_id"]))
             await trans.commit()
     except Exception as e:
         return e
     else:
         result = {}
-        result["insert_state"] = True
+        if is_find:
+            result["insert_state"] = True
+        else:
+            result["insert_state"] = False
         result["payment_id"] = s
         return result
 

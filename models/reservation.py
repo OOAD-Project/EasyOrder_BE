@@ -124,7 +124,6 @@ async def total_static_info(engine):
         cursor = await conn.execute(reservation.select())
         records = await cursor.fetchall()
         await trans.commit()
-        print("record", records)
         records = [dict(r) for r in records]
         total_turnover = 0
         total_reservation = 0
