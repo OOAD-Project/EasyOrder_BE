@@ -13,6 +13,7 @@ import food_view
 import reservation_view
 import keeper_view
 import comment_view
+import payment_view
 
 # 添加路由到 web Application 对象中
 # 输入参数：app web Application 对象
@@ -26,6 +27,7 @@ def setup_routes(app):
     app.router.add_get("/api/comments", comment_view.get_comments)
     app.router.add_post("/api/comments", comment_view.create_comment)
     app.router.add_post("/api/order", reservation_view.create_order)
+    app.router.add_post("/api/payment", payment_view.create_payment)
 
     # 添加面向管理人路由
     app.router.add_post("/api/login", keeper_view.login)
@@ -34,6 +36,7 @@ def setup_routes(app):
     app.router.add_get("/api/reservation_count_by_week", keeper_view.reservation_count_by_week)
     app.router.add_get("/api/reservation_count_by_day", keeper_view.reservation_count_by_day)
     app.router.add_get("/api/basic_static", keeper_view.basic_static)
+    app.router.add_get("/api/payment/{reservation_id}", payment_view.get_payment)
 
     # 添加获取数据的路由
     app.router.add_get("/api/reservation_quantity_pie_data", keeper_view.reservation_quantity_piedata)
@@ -41,6 +44,7 @@ def setup_routes(app):
     app.router.add_get("/api/transaction_count_by_month", keeper_view.transaction_count_by_month)
     app.router.add_get("/api/transaction_count_by_week", keeper_view.transaction_count_by_week)
     app.router.add_get("/api/transaction_count_by_day", keeper_view.transaction_count_by_day)
+    app.router.add_get("/api/payments", keeper_view.get_all_payment)
 
     app.router.add_get("/api/turnover_piedata", keeper_view.turnover_piedata)
 

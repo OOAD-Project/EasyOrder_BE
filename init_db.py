@@ -6,6 +6,7 @@ from models.food import food
 from models.comment import comment
 from models.reservation import reservation
 from models.keeper import keeper
+from models.payment import payment
 from aiohttp_polls.setting import config
 import sqlalchemy as sa
 import mysql.connector
@@ -34,8 +35,8 @@ def init_database():
         if ("restaurant",) not in r:
             raw_cursor.execute("create database restaurant DEFAULT CHARACTER SET gbk COLLATE gbk_chinese_ci;")
             engine = sa.create_engine(URI)
-            if not engine.dialect.has_table(engine, table_name="tag") and not engine.dialect.has_table(engine, table_name="food") and not engine.dialect.has_table(engine, table_name="comment") and not engine.dialect.has_table(engine, table_name="reservation") and not engine.dialect.has_table(engine, table_name="keeper"):
-                meta.create_all(bind=engine, tables=[tag, food, comment, reservation, keeper])
+            if not engine.dialect.has_table(engine, table_name="tag") and not engine.dialect.has_table(engine, table_name="food") and not engine.dialect.has_table(engine, table_name="comment") and not engine.dialect.has_table(engine, table_name="reservation") and not engine.dialect.has_table(engine, table_name="keeper") and not engine.dialect.has_table(engine, table_name="payment"):
+                meta.create_all(bind=engine, tables=[tag, food, comment, reservation, keeper, payment])
     except:
         return False
     else:

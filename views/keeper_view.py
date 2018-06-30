@@ -14,6 +14,7 @@ sys.path.append(str(aiohttp_polls_path))
 import keeper
 import sales
 import aio_engine
+import payment
 
 # json format
 # {
@@ -345,4 +346,18 @@ async def turnover_piedata(request):
     return web.json_response(r_list)
 
 
-
+async def get_all_payment(request):
+    engine = await aio_engine.init_engine()
+    session = await get_session(request)
+    r = await verify_login(engine, session)
+    if not r:
+        return web.json_response({
+            "info": "you have not login!"
+        })
+    records = await payment.select(engine)
+    if  records == []:
+        return web.json_response({})
+    for r in records:
+        r["payment_time"] = str(r["payment_time"])
+        r["reservation_id"] = str(r["reservation_id"])
+    return web.json_response(records)
