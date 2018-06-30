@@ -14,6 +14,7 @@ import reservation_view
 import keeper_view
 import comment_view
 import payment_view
+import shop_view
 
 # 添加路由到 web Application 对象中
 # 输入参数：app web Application 对象
@@ -25,6 +26,7 @@ def setup_routes(app):
     app.router.add_get("/api/order/{id}", reservation_view.get_order)
     app.router.add_get("/api/order_by_table/{id}", reservation_view.get_order_by_table)
     app.router.add_get("/api/comments", comment_view.get_comments)
+    app.router.add_get("/api/shop", shop_view.get_shop)
     app.router.add_post("/api/comments", comment_view.create_comment)
     app.router.add_post("/api/order", reservation_view.create_order)
     app.router.add_post("/api/payment", payment_view.create_payment)
