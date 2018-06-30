@@ -1,6 +1,11 @@
 mysql:
+<<<<<<< HEAD
   user: root
   password: Gzm20125
+=======
+  user: ooad
+  password: ooad
+>>>>>>> 9138b7fbe995cec2c7a867adcf5b8ca68cf1e7ff
   host: localhost
   port: 3306
   database: restaurant
