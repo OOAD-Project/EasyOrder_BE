@@ -30,32 +30,35 @@ async def insert(engine, payment_object):
     is_find = False;
     for i in range(64):
         s += str(random.randint(1,9))
+    
+    print("payment_object", payment_object)
 
-    try:
-        async with engine.acquire() as conn:
-            trans = await conn.begin()
+    # try:
+    async with engine.acquire() as conn:
+        trans = await conn.begin()
             #先判断reservation有没有payment
-            res = await sales.sales_reservation.select(engine, id=payment_object["reservation_id"])
-            if (res != [] and res[0]["isPaid"] == False):
-                is_find = True
-                res = res[0]
-                res["isPaid"] = True
-                res["pay_datetime"] = datetime.datetime.now()
+        print("reservation_id", payment_object["reservation_id"])
+        res = await sales.sales_reservation.select(engine, id=int(payment_object["reservation_id"]))
+        if (res != [] and res[0]["isPaid"] == False):
+            is_find = True
+            res = res[0]
+            res["isPaid"] = True
+            res["pay_datetime"] = datetime.datetime.now()
                 #更新reservation
-                await conn.execute(reservation.update().where(reservation.c.id == payment_object["reservation_id"]).values(isPaid = res["isPaid"], reserve_datetime = res["reserve_datetime"], table_num = res["table_num"], food_list = res["food_list"], total = res["total"], pay_datetime = res["pay_datetime"], isOutOfDate = res["isOutOfDate"]))
-                #插入payment
-                await conn.execute(payment.insert().values(id = s, payment_time = payment_object["payment_time"], payment_way = payment_object["payment_way"], payment_amount = payment_object["payment_amount"], reservation_id = payment_object["reservation_id"]))
-            await trans.commit()
-    except Exception as e:
-        return e
-    else:
-        result = {}
-        result["status"] = False
-        result["payment_id"] = ""
-        if is_find:
-            result["status"] = True
-            result["payment_id"] = s
-        return result
+            await conn.execute(reservation.update().where(reservation.c.id == payment_object["reservation_id"]).values(isPaid = res["isPaid"], reserve_datetime = res["reserve_datetime"], table_num = res["table_num"], food_list = res["food_list"], total = res["total"], pay_datetime = res["pay_datetime"], isOutOfDate = res["isOutOfDate"]))
+            #插入payment
+            await conn.execute(payment.insert().values(id = s, payment_time = payment_object["payment_time"], payment_way = payment_object["payment_way"], payment_amount = payment_object["payment_amount"], reservation_id = payment_object["reservation_id"]))
+        await trans.commit()
+    # except Exception as e:
+    #     return e
+    # else:
+    result = {}
+    result["status"] = False
+    result["payment_id"] = ""
+    if is_find:
+        result["status"] = True
+        result["payment_id"] = s
+    return result
 
 
 async def delete(engine, payment_id):

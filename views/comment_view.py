@@ -5,6 +5,7 @@ import pathlib
 import yaml
 import sys
 from aiojobs.aiohttp import atomic
+import ast
 
 # 加载模型和路由模块
 BASE_DIR = pathlib.Path(__file__).parent.parent
@@ -35,10 +36,14 @@ async def get_comments(request):
 async def create_comment(request):
     engine = await aio_engine.init_engine()
     data = await request.post()
-    print(data["comment"][0]["food_id"])
-    food_id = data["comment"][0]["food_id"]
-    rating = data["comment"][0]["rating"]
-    content = data["comment"][0]["content"]
+    print("data", data)
+    print("data comment", data["comment"], "type", type(data["comment"]))
+    ndata = {}
+    ndata["comment"] = ast.literal_eval(data["comment"])
+    print(ndata["comment"]["food_id"])
+    food_id = ndata["comment"]["food_id"]
+    rating = ndata["comment"]["rating"]
+    content = ndata["comment"]["content"]
     comment_object = {
         "food_id": food_id,
         "rating": rating,

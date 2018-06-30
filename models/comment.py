@@ -22,15 +22,15 @@ comment = sa.Table(
 # 输入参数：engine 连接数据库的引擎，comment_object 要新增的评论
 # 返回值：若插入成功则返回 true，插入失败则返回 false
 async def insert(engine, comment_object):
-    # try:
-    async with engine.acquire() as conn:
-        trans = await conn.begin()
-        await conn.execute(comment.insert().values(content = comment_object["content"], food_id = comment_object["food_id"], rating = comment_object["rating"], comment_time = datetime.datetime.now()))
-        await trans.commit()
-    # except Exception as e:
-    #     return e
-    # else:
-    #     return True
+    try:
+        async with engine.acquire() as conn:
+            trans = await conn.begin()
+            await conn.execute(comment.insert().values(content = comment_object["content"], food_id = comment_object["food_id"], rating = comment_object["rating"], comment_time = datetime.datetime.now()))
+            await trans.commit()
+    except Exception as e:
+        return e
+    else:
+        return True
 
 # 删除已有的评论记录
 # 输入参数：engine 连接数据库的引擎，id 要删除的评论编号

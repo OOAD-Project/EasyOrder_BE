@@ -6,7 +6,7 @@ import pathlib
 import sys
 from aiojobs.aiohttp import atomic
 from aiohttp_session import get_session
-# import ast
+import ast
 
 # 加载模型和路由模块
 BASE_DIR = pathlib.Path(__file__).parent.parent
@@ -56,7 +56,7 @@ async def get_order_by_reservation_id(id):
         return {}
     record = record[0]
     #类型为dict 例如{"pork": 1, "fish": 2}
-    food_list = record["food_list"]
+    food_list =record["food_list"]
     new_food_list = []
     food_name_list = list(food_list.keys())
     for name in food_name_list:
@@ -133,10 +133,13 @@ async def create_order(request):
     data = await request.post()
     #print("data", data)
     table_num = data["table"]
-    food_list = data["list"]
+    food_list =  ast.literal_eval(data["list"])
+    print("food_list", food_list)
     new_food_list = {}
     total = 0
     for f in food_list:
+        print("f", f)
+        # efood = sales.sales_reservation.select(engine,)
         total += f["count"] * f["price"]
         new_food_list[f["name"]] = f["count"]
         #new_food_list.append({f["name"]: f["count"]})
