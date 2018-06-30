@@ -43,4 +43,4 @@ async def get_all_food(request):
         id = r["id"]
         sales_permonth = await sales.sales_permonth(engine, id = id)
         r["sales_permonth"] = sales_permonth
-    return web.json_response({"result": records})
+    return web.json_response(records)
