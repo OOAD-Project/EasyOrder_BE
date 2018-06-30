@@ -30,7 +30,7 @@ async def get_payment(request):
 
 async def create_payment(request):
     engine = await aio_engine.init_engine()
-    data = await request.json()
+    data = await request.post()
     r = await payment.insert(engine, data)
     result = {}
     result["status"] = r["status"]

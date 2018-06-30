@@ -48,7 +48,7 @@ async def get_order(request):
     res["table"] = res["table_num"]
     res["pay_time"] = res["pay_datetime"]
     res["list"] = res["food_list"]
-    
+
     return web.json_response(res)
 
 async def get_order_by_reservation_id(id):
@@ -129,7 +129,7 @@ async def create_order(request):
     #利用session记录reservation_id
     session = await get_session(request)
     engine = await aio_engine.init_engine()
-    data = await request.json()
+    data = await request.post()
     #print("data", data)
     table_num = data["table"]
     food_list = data["list"]

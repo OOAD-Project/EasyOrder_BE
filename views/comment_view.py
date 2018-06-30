@@ -34,7 +34,7 @@ async def get_comments(request):
 @atomic
 async def create_comment(request):
     engine = await aio_engine.init_engine()
-    data = await request.json()
+    data = await request.post()
     print(data["comment"][0]["food_id"])
     food_id = data["comment"][0]["food_id"]
     rating = data["comment"][0]["rating"]
