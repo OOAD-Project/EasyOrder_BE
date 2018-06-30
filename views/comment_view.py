@@ -36,6 +36,7 @@ async def get_comments(request):
 async def create_comment(request):
     engine = await aio_engine.init_engine()
     data = await request.post()
+    data = ast.literal_eval(list(data.keys())[0])
     print("data", data)
     print("data comment", data["comment"], "type", type(data["comment"]))
     ndata = {}
