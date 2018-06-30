@@ -14,6 +14,7 @@ sys.path.append(str(aiohttp_polls_path))
 
 import sales
 import aio_engine
+import tag
 
 # 获取指定编号的菜品信息
 # 输入参数：request 用户请求
@@ -26,7 +27,13 @@ async def get_food(request):
         return web.json_response({})
     record = record[0]
     sales_permonth = await sales.sales_permonth(engine, id = id)
-    record["sales_permonth"] = sales_permonth
+    record["salesPerMonth"] = sales_permonth
+
+    tag_id = record.pop("tag_id");
+    r = await tag.select(engine, tag_id)
+    record["category"] = r[0]["description"]
+    record["id"] = str(record["id"])
+
     return web.json_response(record)
 
 # 获取所有的菜品信息
@@ -37,10 +44,13 @@ async def get_all_food(request):
     records = await sales.sales_food.select(engine)
     if records == []:
         return web.json_response({})
-    #print("records", records)
     for r in records:
-        #print("r", r)
         id = r["id"]
         sales_permonth = await sales.sales_permonth(engine, id = id)
-        r["sales_permonth"] = sales_permonth
+        r["salesPerMonth"] = sales_permonth
+        r["id"] = str(r["id"])
+        tag_id = r.pop("tag_id");
+        t = await tag.select(engine, tag_id)
+        r["category"] = t[0]["description"]
+
     return web.json_response(records)

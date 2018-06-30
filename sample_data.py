@@ -11,20 +11,20 @@ async def insert_sample_data():
     tag_object = {"description": "this is a new tag", "picture": "this is a tag picture"}
     food_object = {
         "name": "牛杂汤粉面",
-        "picture": "https://i8.meishichina.com/attachment/recipe/2014/07/18/20140718114832312460803.jpg?x-oss-process=style/p800",
+        "imageUrl": "https://i8.meishichina.com/attachment/recipe/2014/07/18/20140718114832312460803.jpg?x-oss-process=style/p800",
         "price": 15,
         "description": "this is a pork",
-        "rating": "0.8",
-        "amount": "100",
+        "rate": "0.8",
+        "remain": "100",
         "tag_id": 1
     }
     food_object1 = {
         "name": "素粉面",
-        "picture": "https://www.jucanw.com/UploadFiles/2013-05/admin/2013051715282196795.jpg",
+        "imageUrl": "https://www.jucanw.com/UploadFiles/2013-05/admin/2013051715282196795.jpg",
         "price": 12,
         "description": "this is a fish",
-        "rating": "0.4",
-        "amount": "10",
+        "rate": "0.4",
+        "remain": "10",
         "tag_id": 1
     }
 

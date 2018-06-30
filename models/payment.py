@@ -55,7 +55,6 @@ async def insert(engine, payment_object):
         if is_find:
             result["status"] = True
             result["payment_id"] = s
-        print(result)
         return result
 
 

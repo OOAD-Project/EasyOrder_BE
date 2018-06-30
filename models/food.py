@@ -9,11 +9,11 @@ food = sa.Table(
     meta,                                                                       # 注册器   
     sa.Column("id", sa.Integer, primary_key = True),                            # 菜品编号
     sa.Column("name", sa.String(50), unique = True, nullable = False),          # 菜名
-    sa.Column("picture", sa.String(200)),                                       # 菜品图片
+    sa.Column("imageUrl", sa.String(200)),                                       # 菜品图片
     sa.Column("price", sa.Integer, nullable = False),                           # 菜品价格
     sa.Column("description", sa.String(50)),                                    # 菜品描述
-    sa.Column("rating", sa.Float),                                              # 菜品评价
-    sa.Column("amount", sa.Integer, nullable = False),                          # 菜品库存
+    sa.Column("rate", sa.Float),                                              # 菜品评价
+    sa.Column("remain", sa.Integer, nullable = False),                          # 菜品库存
     sa.Column("likes", sa.Integer, default = 0),                                # 菜品点赞
     sa.Column("tag_id", sa.Integer, sa.ForeignKey("tag.id"), nullable = False)  # 菜品所属种类编号
 )
@@ -25,7 +25,7 @@ async def insert(engine, food_object):
     try:
         async with engine.acquire() as conn:
             trans = await conn.begin()
-            await conn.execute(food.insert().values(name = food_object["name"], picture = food_object["picture"], price = food_object["price"], description = food_object["description"], rating = food_object["rating"], amount = food_object["amount"], likes = 0, tag_id = food_object["tag_id"]))
+            await conn.execute(food.insert().values(name = food_object["name"], imageUrl = food_object["imageUrl"], price = food_object["price"], description = food_object["description"], rate = food_object["rate"], remain = food_object["remain"], likes = 0, tag_id = food_object["tag_id"]))
             await trans.commit()
     except Exception as e:
         return e
@@ -50,6 +50,7 @@ async def delete(engine, food_id):
 # 输入参数：engine 连接数据库的引擎，food_name 菜品名，food_id 菜品编号，likes 菜品点赞数
 # 返回值：与 food_name 和 food_id 对应的点赞数 >= likes 的所有菜品列表；如果不指定参数则返回 food 表的所有菜品列表
 async def select(engine, food_name = None, food_id = None, likes = None):
+    print("-----------------------")
     async with engine.acquire() as conn:
         trans = await conn.begin()
         select_object = food.select()
@@ -62,6 +63,8 @@ async def select(engine, food_name = None, food_id = None, likes = None):
         cursor = await conn.execute(select_object)
         records = await cursor.fetchall()
         await trans.commit()
+        print("-----------------------")
+        print(records)
         return [dict(r) for r in records]
 
 # 相应菜品的点赞数 +1
