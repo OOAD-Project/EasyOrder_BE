@@ -27,7 +27,6 @@ async def get_food(request):
         return web.json_response({})
     record = record[0]
     sales_permonth = await sales.sales_permonth(engine, id = id)
-<<<<<<< HEAD
     record["salesPerMonth"] = sales_permonth
 
     tag_id = record.pop("tag_id");
@@ -35,13 +34,8 @@ async def get_food(request):
     record["category"] = r[0]["description"]
     record["id"] = str(record["id"])
 
-=======
     record["sales_permonth"] = sales_permonth
-<<<<<<< HEAD
     record["id"] = str(record["id"])
->>>>>>> 9138b7fbe995cec2c7a867adcf5b8ca68cf1e7ff
-=======
->>>>>>> 47732bb9f12743d1b45ed4a6c848d116ba92edc0
     return web.json_response(record)
 
 # 获取所有的菜品信息
@@ -55,18 +49,12 @@ async def get_all_food(request):
     for r in records:
         id = r["id"]
         sales_permonth = await sales.sales_permonth(engine, id = id)
-<<<<<<< HEAD
         r["salesPerMonth"] = sales_permonth
         r["id"] = str(r["id"])
         tag_id = r.pop("tag_id");
         t = await tag.select(engine, tag_id)
         r["category"] = t[0]["description"]
 
-=======
         r["sales_permonth"] = sales_permonth
-<<<<<<< HEAD
         r["id"] = str(r["id"])
->>>>>>> 9138b7fbe995cec2c7a867adcf5b8ca68cf1e7ff
-=======
->>>>>>> 47732bb9f12743d1b45ed4a6c848d116ba92edc0
     return web.json_response(records)
