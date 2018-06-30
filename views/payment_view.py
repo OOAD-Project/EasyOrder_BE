@@ -4,7 +4,7 @@ from aiohttp import web
 import pathlib
 import yaml
 import sys
-
+import ast
 
 BASE_DIR = pathlib.Path(__file__).parent.parent
 models_path = BASE_DIR / "models"
