@@ -27,6 +27,7 @@ async def get_food(request):
     record = record[0]
     sales_permonth = await sales.sales_permonth(engine, id = id)
     record["sales_permonth"] = sales_permonth
+    record["id"] = str(record["id"])
     return web.json_response(record)
 
 # 获取所有的菜品信息
@@ -43,4 +44,5 @@ async def get_all_food(request):
         id = r["id"]
         sales_permonth = await sales.sales_permonth(engine, id = id)
         r["sales_permonth"] = sales_permonth
+        r["id"] = str(r["id"])
     return web.json_response(records)

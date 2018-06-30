@@ -1,6 +1,6 @@
 mysql:
-  user: root
-  password: yang
+  user: ooad
+  password: ooad
   host: localhost
   port: 3306
   database: restaurant
