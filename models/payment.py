@@ -36,7 +36,7 @@ async def insert(engine, payment_object):
             trans = await conn.begin()
             #先判断reservation有没有payment
             res = await sales.sales_reservation.select(engine, id=payment_object["reservation_id"])
-            if (res != []):
+            if (res != [] and res[0]["isPaid"] == False):
                 is_find = True
                 res = res[0]
                 res["isPaid"] = True
@@ -50,11 +50,12 @@ async def insert(engine, payment_object):
         return e
     else:
         result = {}
+        result["status"] = False
+        result["payment_id"] = ""
         if is_find:
-            result["insert_state"] = True
-        else:
-            result["insert_state"] = False
-        result["payment_id"] = s
+            result["status"] = True
+            result["payment_id"] = s
+        print(result)
         return result
 
 

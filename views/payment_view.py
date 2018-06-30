@@ -33,5 +33,6 @@ async def create_payment(request):
     data = await request.json()
     r = await payment.insert(engine, data)
     result = {}
-    result["id"] = r["payment_id"]
+    result["status"] = r["status"]
+    result["payment_id"] = r["payment_id"]
     return web.json_response(result)
